@@ -1,21 +1,24 @@
 package me.dio.credit.application.system.service
 
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.unmockkAll
+import io.mockk.verify
 import me.dio.credit.application.system.entity.Credit
 import me.dio.credit.application.system.entity.Customer
 import me.dio.credit.application.system.exception.BusinessException
 import me.dio.credit.application.system.repository.CreditRepository
 import me.dio.credit.application.system.service.impl.CreditService
 import me.dio.credit.application.system.service.impl.CustomerService
+import me.dio.credit.application.system.util.buildCredit
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
 
@@ -141,17 +144,5 @@ class CreditServiceTest {
     verify { creditRepository.findByCreditCode(creditCode) }
   }
 
-  companion object {
-    private fun buildCredit(
-      creditValue: BigDecimal = BigDecimal.valueOf(100.0),
-      dayFirstInstallment: LocalDate = LocalDate.now().plusMonths(2L),
-      numberOfInstallments: Int = 15,
-      customer: Customer = CustomerServiceTest.buildCustomer()
-    ): Credit = Credit(
-      creditValue = creditValue,
-      dayFirstInstallment = dayFirstInstallment,
-      numberOfInstallments = numberOfInstallments,
-      customer = customer
-    )
-  }
+
 }
